@@ -12,7 +12,7 @@ How can data be transmitted via the client in a way that prevents tampering atta
 
 **ANSWER -**
 
-
+Data can be encrypted with a key known only to the server.
 
 ---
 
@@ -22,7 +22,7 @@ An application developer wants to stop an attacker from performing brute-force a
 
 **ANSWER -**
 
-
+If an attacker is able to understand the encryption used for the login attempt cookie they can encrypt a lower number like ```1``` for every request, tricking the server into believing that this is the first attempt to login.
 
 ---
 
@@ -38,7 +38,11 @@ An application contains an administrative page that is subject to rigorous acces
 
 **ANSWER -**
 
+1. This solution is not safe, the ```Referer``` header in an HTTP request can be edited by the client so it should not be trusted for administrative authentication.
 
+2. This might work if somehow the domain has access to the cookie and session values from the other domain.
+
+3. This might also work but it can be potentially dangerous in a case where an attacker is able to infer the way that the token is implemented and send a token tricking the domain into thinking it came from the administrator.
 
 ---
 
@@ -48,7 +52,7 @@ If a form field includes the attribute ```disabled=true```, it is not submitted 
 
 **ANSWER -**
 
-
+One way is to save the HTML and edit the page locally, changing the ```disabled``` attribute's value to ```false```. An easier way, and the preferred method for many pentesters, is to change the attribute's value after intercepting the request with a tool like BurpSuite.
 
 ---
 
@@ -58,3 +62,4 @@ Are there any means by which an application can ensure that a piece of input val
 
 **ANSWER -**
 
+No, the client has full control over the resources they request, they may decline some of the files that the server has sent to them.
