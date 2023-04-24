@@ -16,7 +16,7 @@ What three vulnerabilities can you diagnose without probing any further?
 
 **ANSWER -**
 
-
+The first vulnerability in the URL comes from the use of HTTP instead of HTTPS during the login process. The second vulnerability comes from using a GET request to submit user credentials. The last vulnerability comes from the password itself, it seems that the application allows for the use of weak passwords.
 
 ---
 
@@ -26,7 +26,7 @@ How can self-registration functions introduce username enumeration vulnerabiliti
 
 **ANSWER -**
 
-
+Self-registration functions can introduce enumeration vulnerabilities by revealing too much information about existing users, this usually happens by giving messages to the user about wether or not a username is already taken or by refusing to register a certain username. There are two ways this type of vulnerability can be prevented, one is to pick a random unique username _for_ the user and the other is to use an e-mail as the username and e-mail them a registration URL.
 
 ---
 
@@ -42,7 +42,7 @@ Why is the required information requested in two seperate steps? What defect wou
 
 **ANSWER -**
 
-
+The application does this in order to not load in letters from the memorable word if the users credentials are incorrect. If this were _not_ the case, attackers could continuously refresh the page gettting letters from the memorable word until they know the whole word.
 
 ---
 
@@ -54,7 +54,7 @@ What is wrong with this mechanism, and how can the vulnerability be corrected?
 
 **ANSWER -**
 
-
+This style of multi-stage login is capable of leaking user information, once a stage is passed it is a confirmation that the supplied data is correct, allowing an attacker to enumerate through the login mechanism. The vulnerability can be corrected by allowing a user to supply data at every stage and only at the end reveal that the login has failed.
 
 ---
 
@@ -73,3 +73,5 @@ The idea behind this antiphishing mechanism is that it enables the user to confi
 What vulnerability does this antiphishing mechanism introduce into the login function? Is the mechanism effective at preventing phishing?
 
 **ANSWER -**
+
+This process does not work. An attacker would only need to use the first set of credentials (username and date of birth) twice to verify if the credentials are valid, if the same photo is shown both times an attacker can tell that this user exists.
