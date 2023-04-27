@@ -12,7 +12,23 @@ You are trying to exploit a SQL injection flaw by performing a ```UNION``` attac
 
 **ANSWER -**
 
+You can find how many columns axist within the current table by continuosly selecting ```NULL``` until no error is returned like so:
 
+```sql
+' UNION SELECT NULL--
+```
+
+```sql
+' UNION SELECT NULL,NULL--
+```
+
+```sql
+' UNION SELECT NULL,NULL,NULL--
+```
+
+```sql
+' UNION SELECT NULL,NULL,NULL,NULL--
+```
 
 ---
 
@@ -22,7 +38,7 @@ You have located a SQL injection vulnerability in a string parameter. You believ
 
 **ANSWER -**
 
-
+You can try to use database specific syntax or operators and see how the application responds.
 
 ---
 
@@ -38,25 +54,50 @@ You have submitted a single quotation mark at numerous locations throughout the 
 
 **ANSWER -**
 
-
+Without knowing how the queries are structured it is hard to tell which would be the safest route to test, but because functions responsible for registering new users tend to use pretty straightforward queries this may be the safest bet. Update functions may rely on conditionals that can cause undesired effects when injected into, and unsubscribe functions rely on ```DELETE``` statements and an injection like ```' OR 1 = 1``` may delete all users in a table.
 
 ---
 
 ## Question 4 -
 
-You have found a SQL injection vulnerability in a login function, and you try to input ```' or 1 = 1``` to bypass the login. Your attack fails, and the resulting error message indicates that the ```--``` characters are being stripped by the application's input filters. How could you circumvent this problem?
+You have found a SQL injection vulnerability in a login function, and you try to input ```' or 1 = 1--``` to bypass the login. Your attack fails, and the resulting error message indicates that the ```--``` characters are being stripped by the application's input filters. How could you circumvent this problem?
 
 **ANSWER -**
 
+You can URL encode the dashes, use the ```char()``` function with the number 45 as input (ascii equivalent to ```-```), or just match the quotations, resulting in the following payloads:
 
+**URL Encoding -**
+
+```sql
+'OR 1 = 1 %2D%2D
+```
+
+**Char Function -**
+
+```sql
+' OR 1 = 1 char(45) char(45)
+```
+
+**Quotation Matching -**
+
+```sql
+' OR 'a'='a
+```
 
 ---
 
 ## Question 5 -
 
-You have found a SQL injection vulnerabilty but have been unable to carry out any useful attacks, because the application rejects any input containing whitespace. How can you work around this restriction?
+You have found a SQL injection vulnerability but have been unable to carry out any useful attacks, because the application rejects any input containing whitespace. How can you work around this restriction?
 
 **ANSWER -**
+
+One way to avoid using whitespace characters is to sandwich comments inbetween words like so:
+
+
+```sql
+SELECT/*foo*/first_name,last_name/*bar*/FROM/*baz*/Customers;
+```
 
 ---
 
@@ -66,13 +107,17 @@ The application is doubling up all single quotation marks within user input befo
 
 **ANSWER -**
 
+You can use the ```char()``` function along with the ascii decimal equivalents of the letters you are trying to inject and concatenate them together.
+
 ---
 
 ## Question 7 -
 
-In some rare situations, applications construct dynamic SQL queries from user-supplied input in any way that cannot be made safe using parameterized queries. When does this occur?
+In some rare situations, applications construct dynamic SQL queries from user-supplied input in a way that cannot be made safe using parameterized queries. When does this occur?
 
 **ANSWER -**
+
+Sometimes this can happen when an application queries a table named after some user supplied data.
 
 ---
 
@@ -81,6 +126,8 @@ In some rare situations, applications construct dynamic SQL queries from user-su
 You have escalated privileges within an application such that you now have full administrative access. You discover a SQL injection vulnerability within a user administration function. How can you leverage this vulnerability to further advance your attack?
 
 **ANSWER -**
+
+You can use database functions to execute commands on the operating system.
 
 ---
 
@@ -96,6 +143,14 @@ You are attacking an application that holds no sensitive data and contains no au
 
 **ANSWER -**
 
+1. OS Command Injection
+
+2. SQL Injection
+
+3. XPath Injection
+
+OS Command Injections are extremely dangerous because they involve the **whole** operating system. SQL Injections are also dangerous but if there's no information in the database then the impact is lower than an OS Injection, but SQL Injections can be leveraged to execute OS commands. XPath Injections would be the lowest on the ranked list because if there's no sensitive information than the impact will be lower than the other injections.
+
 ---
 
 ## Question 10 -
@@ -103,3 +158,5 @@ You are attacking an application that holds no sensitive data and contains no au
 You are probing an application function that enables you to search personel details. You suspect that the function is accessing either a database or an Active Directory back end. How could you try to determine which of these is the case?
 
 **ANSWER -**
+
+You can try injecting wildcard operators specific to the two different data stores and see how the application responds. For SQL the wildcard is ```%``` and for Active Directory the wildcard is ```*```.
