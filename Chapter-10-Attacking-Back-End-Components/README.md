@@ -12,7 +12,7 @@ A network device provides a web-based interface for performing device configurat
 
 **ANSWER -**
 
-
+A network device that provides a web-based interface *can* be vulnerable to OS injection due to the fact that some of the devices functionality might be invoked through the use of OS commands.
 
 ---
 
@@ -30,7 +30,11 @@ What steps could you take to attack the application?
 
 **ANSWER -**
 
+Looking at the error response it's plain to see that the value passed into the ```country``` paramater is being used to specify what log file to show the user. This can lead to a path traversal vulnerability that can be exploited with what is known as a "Dot Dot Slash" attack, for example, if we wanted to read the ```/etc/passwd``` file we could provide the following value to the ```country``` parameter:
 
+```http://wahh-app.com/home/statsmgr.aspx?country=../../../../../../etc/passwd%00```
+
+The above url uses path traversal techniques to read the ```/etc/passwd``` file and ends with a URL encoded ```NULL``` byte so that the ```.log``` extension is not read.
 
 ---
 
@@ -40,7 +44,7 @@ You are testing an AJAX application that sends data in XML format within POST re
 
 **ANSWER -**
 
-
+This vulnerability is known as XXE injection (XML External Entity) and in order for an attack to succeed, responses need to be echoed into the XML.
 
 ---
 
@@ -66,7 +70,7 @@ What value does the ```param``` variable have?
 
 **ANSWER -**
 
-
+All four values will be stored in the ```param``` variable because ```ASP.NET``` will store them as an array instead of overwriting any of the values like other programs would.
 
 ---
 
@@ -76,7 +80,7 @@ Is HPP a prerequisite for HPI, or vice versa?
 
 **ANSWER -**
 
-
+They're both different types of attacks. HPP (HyperText Parameter Pollution) is an attack where multiple parameters with the same name hold different values. Some programs will store the first value, others will store the last value specified. HPI (HyperText Parameter Injection) is an attack where parameters and their values are injected into HTTP requests that are then proccessed by the server. Sometimes exploiting these vulnerabilites can involve using both attacks but they are not dependant on each other.
 
 ---
 
@@ -86,7 +90,12 @@ An application contains a function that proxies requests to external domains and
 
 **ANSWER -**
 
+You can make the following alternative requests:
 
+1. ```127.1```
+2. ```127.000.0.1```
+3. ```017700000001```
+4. ```::1```
 
 ---
 
@@ -102,3 +111,4 @@ An application contains a function for user feedback. This allows the user to su
 
 **ANSWER -**
 
+Strictly validating user-supplied inputs, banning the use of newlines and SMTP metacharacters.
