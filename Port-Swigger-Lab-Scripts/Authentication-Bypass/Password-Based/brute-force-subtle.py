@@ -1,17 +1,17 @@
 # A simple python program made to solve the following PortSwigger Lab:
-# https://portswigger.net/web-security/authentication/password-based/lab-username-enumeration-via-different-responses
+# https://portswigger.net/web-security/authentication/password-based/lab-username-enumeration-via-subtly-different-responses
 
 import requests
 
 SCHEME = "HTTPS://"
 URL = "web-security-academy.net"
 PATH = "/login"
-SUB_DOMAIN = "0aa9003803e5bec382c0793f00ff005e" # Change This Line With Labs Subdomain
+SUB_DOMAIN = "INSERT SUB-DOMAIN HERE" # Change This Line With Labs Subdomain
 FULL_PATH = SCHEME + SUB_DOMAIN + "." + URL + PATH
-WRONG_USERNAME_MESSAGE = "Invalid username"
-WRONG_PASSWORD_MESSAGE = "Incorrect password"
-USERNAME_FILE = "./username-wordlist.txt"
-PASSWORD_FILE = "./password-wordlist.txt"
+WRONG_USERNAME_MESSAGE = "Invalid username or password."
+WRONG_PASSWORD_MESSAGE = "Invalid username or password" # Notice the lack of the "." character at the end.
+USERNAME_FILE = "../../Word-Lists/username-wordlist.txt"
+PASSWORD_FILE = "../../Word-Lists/password-wordlist.txt"
 
 def informUserOfConfiguration():
     print(f"Program Starting...")
