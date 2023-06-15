@@ -12,7 +12,11 @@ You discover an application function where the contents of a query string parame
 
 **ANSWER -**
 
+1. Cookie injection by ending the query string parameter's value with the new line and line feed characters followed by a new cookie.
 
+2. Proxy server cache poisoning.
+
+3. Redirection to a domain controlled by the attacker.
 
 ---
 
@@ -22,7 +26,13 @@ What main precondition must exist to enable a CSRF attack against a sensitive fu
 
 **ANSWER -**
 
+In order for a CSRF vulnerability to be exploited the following three conditions must be met:
 
+1. A relevant action must be present – Such as a change e-mail or change password action.
+
+2. The page must use cookie-based session handling – The application relies on cookies for user validation.
+
+3. There should be no unpredictable request parameters – The request parameters values are guessable for instance in a change password function if the current password needs to be present than the function is not vulnerable.
 
 ---
 
@@ -32,7 +42,11 @@ What three defensive measures can be used to prevent JavaScript hijacking attack
 
 **ANSWER -**
 
+1. Having a strong Content-Security Policy.
 
+2. Proper input validation and input sanitization.
+
+3. Use secure-coding practices.
 
 ---
 
@@ -50,7 +64,13 @@ For each of the following technologies, identify the circumstances, if any, in w
 
 **ANSWER -**
 
+1. Flash doesn't exist anymore.
 
+2. Java won't check.
+
+3. HTML5 won't check, because it uses Cross-Origin Resource Sharing instead.
+
+4. Silverlight doesn't exist anymore.
 
 ---
 
@@ -60,7 +80,7 @@ For each of the following technologies, identify the circumstances, if any, in w
 
 **ANSWER -**
 
-
+It's not about wether you use frames or not, the frame is used by the *attacker* to embed your webpage into theirs.
 
 ---
 
@@ -70,7 +90,15 @@ You identify a persistent XSS vulnerability within the display name caption used
 
 **ANSWER -**
 
+???
 
+Apparently the answer is:
+
+> (a) The attacker creates his own account on the application, and places a malicious payload into his own display name.
+
+> (b) The attacker creates his own site that causes visitors to log in to the vulnerable application using the attacker's credentials (via a CSRF attack against the login function), and then request the page containing the malicious display name.
+
+> (c) When a victim is induced to visit the attacker's website, she is logged in to the vulnerable application, and the attacker's JavaScript executes. This script persists itself within the victim's browser, logs out of the application, and presents some content that induces the victim to log in using her own credentials. If she does this, then the attacker's script can compromise both the victim's credentials and her resulting session. From the victim's persepective the attack is seamless and appears to involve simply following a link, and then being presented with the vulnerable application's own login function.
 
 ---
 
@@ -80,7 +108,7 @@ How would you test whether an application allows cross-domain requests using ```
 
 **ANSWER -**
 
-
+By adding an ```Origin``` header and checking wether the value is echoed within the ```Access-Control-Allow-Origin``` response header.
 
 ---
 
@@ -90,3 +118,8 @@ Describe three ways in which an attacker might induce a victim to use an arbitra
 
 **ANSWER -**
 
+1. Cookie injection via URL get request.
+
+2. Cross-Site Scripting.
+
+3. Man in the middle attacks.
