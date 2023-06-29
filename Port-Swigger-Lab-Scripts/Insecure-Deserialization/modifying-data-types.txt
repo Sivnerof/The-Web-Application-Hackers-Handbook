@@ -1,3 +1,6 @@
+The steps below are meant to solve the following lab:
+https://portswigger.net/web-security/deserialization/exploiting/lab-deserialization-modifying-serialized-data-types
+
 Original Cookie:
 Tzo0OiJVc2VyIjoyOntzOjg6InVzZXJuYW1lIjtzOjY6IndpZW5lciI7czoxMjoiYWNjZXNzX3Rva2VuIjtzOjMyOiJidDVzZXVkczU1NzY1MTRwMGVyc21hbHNid243ZGdoaiI7fQ%3d%3d
 	
