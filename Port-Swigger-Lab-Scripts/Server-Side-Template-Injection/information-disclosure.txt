@@ -1,0 +1,26 @@
+The payloads below are meant to solve the following lab:
+https://portswigger.net/web-security/server-side-template-injection/exploiting/lab-server-side-template-injection-with-information-disclosure-via-user-supplied-objects
+
+Login credentials:
+content-manager:C0nt3ntM4n4g3r
+
+After logging in as the content manager we can edit the blog templates.
+
+In order to find what template engine is used we can use a divide by zero error in hopes that a stack trace will be returned.
+
+Payload: {{7/0}}
+Response: ERROR, Django Stack Trace
+
+Looking online for Django template injections we'll find a payload that returns all accessible objects.
+
+Payload: {% debug %}
+Response: Information about Django internals
+
+One of the objects we have access to is "settings".
+Looking at the online Django documentation for settings we'll find the following URL for a SECRET_KEY property:
+https://docs.djangoproject.com/en/4.2/ref/settings#secret-key
+
+TO get the key we use the following payload:
+Payload: {{ settings.SECRET_KEY }}
+Response: Secret Key
+
