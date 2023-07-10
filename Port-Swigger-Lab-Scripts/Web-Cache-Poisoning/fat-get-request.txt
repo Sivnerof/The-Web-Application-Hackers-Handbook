@@ -1,0 +1,4 @@
+The payload at the end of the file is meant to solve the following lab:
+https://portswigger.net/web-security/web-cache-poisoning/exploiting-implementation-flaws/lab-web-cache-poisoning-fat-get
+
+callback=alert(1)
