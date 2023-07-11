@@ -1,0 +1,13 @@
+The steps below are meant to solve the following lab:
+https://portswigger.net/web-security/host-header/exploiting/lab-host-header-authentication-bypass
+
+After finding the admin directory at https://[SUB_DOMAIN].web-security-academy.net/admin we'll see the following message:
+Admin interface only available to local users
+
+Intercept a request to "/admin" and changing the Host header to "localhost":
+Host: localhost
+
+Afterwards we'll get access to the Admin panel, intercept the request to delete Carlos, and change the Host header to localhost again.
+
+GET /admin/delete?username=carlos HTTP/1.1
+Host: localhost
