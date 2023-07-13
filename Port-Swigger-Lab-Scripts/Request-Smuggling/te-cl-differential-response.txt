@@ -10,7 +10,7 @@ Content-Length: 4
 
 A2
 GET /xyz HTTP/1.1
-Host: 0ad0000c0373f6da8225ab48004f006a.web-security-academy.net
+Host: [SUB_DOMAIN].web-security-academy.net
 Content-Type: application/x-www-form-urlencoded
 Content-Length: 200
 
