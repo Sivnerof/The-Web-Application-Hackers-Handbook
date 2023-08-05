@@ -122,4 +122,4 @@ Describe three ways in which an attacker might induce a victim to use an arbitra
 
 2. Cross-Site Scripting.
 
-3. Man in the middle attacks.
+3. Man-in-the-Middle attacks.
